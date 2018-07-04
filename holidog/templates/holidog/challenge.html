@@ -76,7 +76,7 @@
                                         //alert(data['message'][Object.keys(data['message'])[j]].length);
                                         for(var j2=0;j2<data['message'][Object.keys(data['message'])[j]].length;j2++){
                                             //alert(data['message'][Object.keys(data['message'])[j]][j2]);
-                                            results.push(Object.keys(data['message'])[j] +" "+ data['message'][Object.keys(data['message'])[j]][j2]); 
+                                            results.push(Object.keys(data['message'])[j]+"-"+data['message'][Object.keys(data['message'])[j]][j2]); 
                                         }
                                     }
                                             
@@ -94,7 +94,8 @@
                 if(results.length > 0) {
 
                     for (var i = 0; i < results.length; i++) {
-                        res += '<li id='+results[i]+' onclick=myFunction2(this.id)><a href="#">'+results[i]+" </a></li>";
+                        //alert(results[i]); 
+                        res += '<li id='+results[i]+' value='+results[i]+' onclick=myFunction2(this.id)><a href="#">'+results[i]+" </a></li>";
                         //res += '<option>'+results[i]+'</option>'; 
                     }
                 }
@@ -109,6 +110,7 @@
             }
             
          function myFunction2(str){
+             var v = document.getElementById(str).getAttribute("value");
              document.getElementById("optionSelect").setAttribute("value",str); 
              document.getElementById("vis").disabled = false; 
              
