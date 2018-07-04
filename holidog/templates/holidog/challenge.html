@@ -39,8 +39,8 @@
                  <button id="vis" type="submit" onclick="myFunction3()" disabled>Visualize</button>
             </div> 
              
-             <div class="container" style="background-color:#aaa">
-                 <img id="photoDog">
+             <div class="container">
+                 <img id="photoDog"></img>
              </div> 
              
              
@@ -51,7 +51,6 @@
          
         <script>
             function myFunction() {
-                //alert("entro");
 
                 var requests = [];
                 var results = [];
@@ -68,6 +67,7 @@
                             dataType:'json',
                             success:[function(data){
                                 //alert(Object.keys(data['message']).length);
+                                //alert(data['status']); 
                                 
                                 for(var j=0;j<Object.keys(data['message']).length;j++){
                                     if(data['message'][Object.keys(data['message'])[j]] == "")
@@ -116,31 +116,37 @@
             
          function myFunction3(){
              var breedSelected = document.getElementById("optionSelect").getAttribute("value"); 
-             alert(breedSelected); 
-             var url = 'http://dog.ceo/api/breed/'+breedSelected+'/images/random';
-             alert(url); 
-             requests.push(
-                    $.ajax(
-                        {url:'http://dog.ceo/api/breed/'+breedSelected+'/images/random',
-                        /*
-                        * URL para localhost
-                        * url:'http://'+ips[i]+'/api/items/?category='+categoria+'\&new='+nuevo+'\&price='+precio
-                        */
-                        type:'GET',
-                        dataType:'json',
-                        success:[function(data){
-                            alert(data['status']);
-                            alert("Hola"); 
-                            /*for(var j=0;j<data['results'].length;j++){
-                                results.push(data['results'][j]);
-                            }*/
-                        }]
-                        }
-                    )
-                );  
-                $.when.apply($,requests).then(function(){
-                })
-            
+                    //alert("entro");
+
+                var requests = [];
+                var results = [];
+                var image = ""; 
+                //var ips = ['localhost:8000'];
+                
+                var ips = ['https://dog.ceo/api/breed/'+breedSelected+'/images/random'];
+
+                for(var i=0;i<ips.length; i++){
+                    requests.push(
+                        $.ajax(
+                            {url:ips[i],
+                            type:'GET',
+                            dataType:'json',
+                            success:[function(data){
+                                //alert(Object.keys(data['message']).length);
+                                //alert(data['status']);
+                                //alert(data['message']); 
+                                image = data['message']; 
+                                
+                               
+                            }]
+                            }
+                        )
+                    );
+                }
+
+            $.when.apply($,requests).then(function(){
+               document.getElementById("photoDog").setAttribute("src",image); 
+            })
              
          }
       </script>
