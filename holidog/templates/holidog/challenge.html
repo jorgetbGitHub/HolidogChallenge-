@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+  <title>Holidog</title>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+  </head>
+    
+     <body>
+      
+      <h3>Challenge of Holidog</h3> 
+         
+         <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Breeds <span class="caret"></span>
+          </button>
+
+          <ul id="breeds" class="dropdown-menu" role="menu">
+          </ul>
+        </div>
+         
+        <script>
+            function myFunction() {
+                //alert("entro");
+
+                var requests = [];
+                var results = [];
+
+                //var ips = ['localhost:8000'];
+                
+                var ips = ['https://dog.ceo/api/breeds/list/all'];
+
+                for(var i=0;i<ips.length; i++){
+                    requests.push(
+                        $.ajax(
+                            {url:ips[i],
+                            type:'GET',
+                            dataType:'json',
+                            success:[function(data){
+                                alert(Object.keys(data['message']).length);
+                                
+                                for(var j=0;j<Object.keys(data['message']).length;j++){
+                                    results.push(Object.keys(data['message'])[j]);
+                                }
+                            }]
+                            }
+                        )
+                    );
+                }
+
+            $.when.apply($,requests).then(function(){
+                var res = document.getElementById("breeds").innerHTML;
+                res = "";
+                if(results.length > 0) {
+
+                    for (var i = 0; i < results.length; i++) {
+                        res += '<li><a href="#">'+"Action: "+results[i]+" </a></li>"
+                    }
+                }
+                else{
+                    res += "<h4>No hay items que comparar</h4>";
+                }
+                res += '<li><a href="#">'+"Action: "+999+" </a></li>"
+                document.getElementById("breeds").innerHTML = res;
+            })
+            }
+            
+      </script>
+         
+         <script>
+             myFunction();
+         </script> 
+     
+    </body> 
+
+
+</html>
